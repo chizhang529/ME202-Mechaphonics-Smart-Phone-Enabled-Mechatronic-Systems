@@ -46,10 +46,13 @@
                 android:src="@drawable/user"/>
 
             <EditText
+                android:id="@+id/username"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_toRightOf="@id/userLogo"
                 android:layout_alignBottom="@id/userLogo"
+                android:inputType="text"
+                android:maxLines="1"
                 android:hint="@string/usernamehint"/>
         </RelativeLayout>
     </LinearLayout>
@@ -72,10 +75,13 @@
             android:src="@drawable/password"/>
 
         <EditText
+            android:id="@+id/password"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_toRightOf="@id/passwordLogo"
             android:layout_alignBottom="@id/passwordLogo"
+            android:inputType="text"
+            android:maxLines="1"
             android:hint="@string/passwordhint"/>
         </RelativeLayout>
     </LinearLayout>
@@ -92,7 +98,8 @@
             android:scaleType="fitCenter"
             android:scaleX="2"
             android:scaleY="2"
-            android:src="@drawable/loginbutton"/>
+            android:src="@drawable/loginbutton"
+            android:onClick="login"/>
     </LinearLayout>
 
 </LinearLayout>

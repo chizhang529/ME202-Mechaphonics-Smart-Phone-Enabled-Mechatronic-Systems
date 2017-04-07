@@ -1,6 +1,11 @@
 <resources>
-    <string name = "app_name">Lab1_SmartBike</string>
+    <string name ="app_name">Lab1_SmartBike</string>
     <string name ="welcometext">Welcome to Smart Bike!</string>
     <string name ="usernamehint">Username&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;</string>
     <string name ="passwordhint">Password&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;</string>
+    <string name ="connectionstatus">Connection: Diconnected</string>
+    <string name ="bikecode">Bike Identifier: Unknown</string>
+    <string name ="unlockhint">Press to Unlock</string>
+    <string name ="lightstatehint">Light State: ON/AUTO</string>
+    <string name ="lightmodehint">Light Mode: Solid/Blink</string>
 </resources>

@@ -1,9 +1,211 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@android:color/white"
+    android:paddingBottom="16dp"
+    android:paddingLeft="16dp"
+    android:paddingRight="16dp"
+    android:paddingTop="16dp"
+    android:orientation="vertical"
     tools:context="edu.stanford.me202.lab1_smartbike.ControlActivity">
 
-</android.support.constraint.ConstraintLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="4"
+        android:orientation="vertical">
+
+        <ImageButton
+            android:layout_width="wrap_content"
+            android:layout_height="0dp"
+            android:layout_weight="3"
+            android:background="@android:color/white"
+            android:scaleType="fitCenter"
+            android:src="@drawable/unlock" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="0.8"
+            android:fontFamily="sans-serif-condensed"
+            android:gravity="center"
+            android:paddingTop="10dp"
+            android:text="@string/unlockhint"
+            android:textColor="@android:color/black"
+            android:textSize="20dp"
+            android:textStyle="bold" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="4.5"
+            android:orientation="vertical"
+            android:paddingBottom="10dp"
+            android:paddingTop="10dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="2">
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="match_parent">
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent">
+
+                        <TextView
+                            android:id="@+id/lightstateText"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_centerHorizontal="true"
+                            android:layout_above="@+id/lightstate_switch"
+                            android:paddingBottom="15dp"
+                            android:textColor="@android:color/black"
+                            android:textSize="15dp"
+                            android:fontFamily="sans-serif-condensed"
+                            android:text="@string/lightstatehint"/>
+
+                        <com.github.glomadrian.materialanimatedswitch.MaterialAnimatedSwitch
+                            android:id="@+id/lightstate_switch"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_gravity="center"
+                            android:scaleX="2.5"
+                            android:scaleY="2.5"
+                            android:layout_centerHorizontal="true"
+                            android:layout_centerVertical="true"
+                            app:base_release_color="@color/oniconColor"
+                            app:base_press_color="@color/autoiconColor"
+                            app:ball_release_color="@android:color/white"
+                            app:ball_press_color="@android:color/white"
+                            app:icon_release="@drawable/on"
+                            app:icon_press="@drawable/auto"/>
+                    </RelativeLayout>
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="match_parent">
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent">
+
+                        <TextView
+                            android:id="@+id/lightmodeText"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_centerHorizontal="true"
+                            android:layout_above="@+id/lightmode_switch"
+                            android:paddingBottom="15dp"
+                            android:textColor="@android:color/black"
+                            android:textSize="15dp"
+                            android:fontFamily="sans-serif-condensed"
+                            android:text="@string/lightmodehint"/>
+
+                        <com.github.glomadrian.materialanimatedswitch.MaterialAnimatedSwitch
+                            android:id="@+id/lightmode_switch"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_gravity="center"
+                            android:scaleX="2.5"
+                            android:scaleY="2.5"
+                            android:layout_centerHorizontal="true"
+                            android:layout_centerVertical="true"
+                            app:base_release_color="@android:color/holo_orange_dark"
+                            app:base_press_color="@android:color/holo_orange_light"
+                            app:ball_release_color="@android:color/white"
+                            app:ball_press_color="@android:color/white"
+                            app:icon_release="@drawable/solidlight"
+                            app:icon_press="@drawable/blinklight"/>
+                    </RelativeLayout>
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+            <ImageButton
+                android:layout_width="wrap_content"
+                android:layout_height="0dp"
+                android:layout_weight="1.5"
+                android:background="@android:color/white"
+                android:scaleType="fitCenter"
+                android:src="@drawable/ridehistory">
+
+            </ImageButton>
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="0.3">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center">
+
+            <ImageView
+                android:id="@+id/connectionLogo"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:adjustViewBounds="true"
+                android:src="@drawable/connection"/>
+
+            <TextView
+                android:id="@+id/connectionStatus"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingLeft="10dp"
+                android:layout_toRightOf="@id/connectionLogo"
+                android:layout_centerVertical="true"
+                android:fontFamily="sans-serif-condensed"
+                android:textColor="@android:color/black"
+                android:textSize="18dp"
+                android:text="@string/connectionstatus"/>
+        </RelativeLayout>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="0.3">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center">
+
+            <ImageView
+                android:id="@+id/bikecodeLogo"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:adjustViewBounds="true"
+                android:src="@drawable/bikecode"/>
+
+            <TextView
+                android:id="@+id/bikecode"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingLeft="10dp"
+                android:layout_toRightOf="@id/bikecodeLogo"
+                android:layout_centerVertical="true"
+                android:fontFamily="sans-serif-condensed"
+                android:textColor="@android:color/black"
+                android:textSize="18dp"
+                android:text="@string/bikecode"/>
+        </RelativeLayout>
+    </LinearLayout>
+</LinearLayout>
