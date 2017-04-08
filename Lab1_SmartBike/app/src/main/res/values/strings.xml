@@ -8,4 +8,9 @@
     <string name ="unlockhint">Press to Unlock</string>
     <string name ="lightstatehint">Light State: ON/AUTO</string>
     <string name ="lightmodehint">Light Mode: Solid/Blink</string>
+
+    <string name ="unlockDialogYes">Connect</string>
+    <string name ="unlockDialogNo">Cancel</string>
+    <string name ="unlockDialogTitle">Choose bike to connect</string>
+    <string name ="unlockDialogHint">Enter bike identifier here</string>
 </resources>

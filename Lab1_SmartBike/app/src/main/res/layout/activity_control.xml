@@ -24,7 +24,8 @@
             android:layout_weight="3"
             android:background="@android:color/white"
             android:scaleType="fitCenter"
-            android:src="@drawable/unlock" />
+            android:src="@drawable/unlock"
+            android:onClick="unlock"/>
 
         <TextView
             android:layout_width="match_parent"
@@ -53,8 +54,8 @@
 
                 <LinearLayout
                     android:layout_width="0dp"
-                    android:layout_weight="1"
-                    android:layout_height="match_parent">
+                    android:layout_height="match_parent"
+                    android:layout_weight="1">
 
                     <RelativeLayout
                         android:layout_width="match_parent"
@@ -64,37 +65,37 @@
                             android:id="@+id/lightstateText"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_centerHorizontal="true"
                             android:layout_above="@+id/lightstate_switch"
-                            android:paddingBottom="15dp"
-                            android:textColor="@android:color/black"
-                            android:textSize="15dp"
+                            android:layout_centerHorizontal="true"
                             android:fontFamily="sans-serif-condensed"
-                            android:text="@string/lightstatehint"/>
+                            android:paddingBottom="15dp"
+                            android:text="@string/lightstatehint"
+                            android:textColor="@android:color/black"
+                            android:textSize="15dp" />
 
                         <com.github.glomadrian.materialanimatedswitch.MaterialAnimatedSwitch
                             android:id="@+id/lightstate_switch"
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
+                            android:layout_centerHorizontal="true"
+                            android:layout_centerVertical="true"
                             android:layout_gravity="center"
                             android:scaleX="2.5"
                             android:scaleY="2.5"
-                            android:layout_centerHorizontal="true"
-                            android:layout_centerVertical="true"
-                            app:base_release_color="@color/oniconColor"
-                            app:base_press_color="@color/autoiconColor"
-                            app:ball_release_color="@android:color/white"
                             app:ball_press_color="@android:color/white"
-                            app:icon_release="@drawable/on"
-                            app:icon_press="@drawable/auto"/>
+                            app:ball_release_color="@android:color/white"
+                            app:base_press_color="@color/autoiconColor"
+                            app:base_release_color="@color/oniconColor"
+                            app:icon_press="@drawable/auto"
+                            app:icon_release="@drawable/on" />
                     </RelativeLayout>
 
                 </LinearLayout>
 
                 <LinearLayout
                     android:layout_width="0dp"
-                    android:layout_weight="1"
-                    android:layout_height="match_parent">
+                    android:layout_height="match_parent"
+                    android:layout_weight="1">
 
                     <RelativeLayout
                         android:layout_width="match_parent"
@@ -104,29 +105,29 @@
                             android:id="@+id/lightmodeText"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_centerHorizontal="true"
                             android:layout_above="@+id/lightmode_switch"
-                            android:paddingBottom="15dp"
-                            android:textColor="@android:color/black"
-                            android:textSize="15dp"
+                            android:layout_centerHorizontal="true"
                             android:fontFamily="sans-serif-condensed"
-                            android:text="@string/lightmodehint"/>
+                            android:paddingBottom="15dp"
+                            android:text="@string/lightmodehint"
+                            android:textColor="@android:color/black"
+                            android:textSize="15dp" />
 
                         <com.github.glomadrian.materialanimatedswitch.MaterialAnimatedSwitch
                             android:id="@+id/lightmode_switch"
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
+                            android:layout_centerHorizontal="true"
+                            android:layout_centerVertical="true"
                             android:layout_gravity="center"
                             android:scaleX="2.5"
                             android:scaleY="2.5"
-                            android:layout_centerHorizontal="true"
-                            android:layout_centerVertical="true"
-                            app:base_release_color="@android:color/holo_orange_dark"
-                            app:base_press_color="@android:color/holo_orange_light"
-                            app:ball_release_color="@android:color/white"
                             app:ball_press_color="@android:color/white"
-                            app:icon_release="@drawable/solidlight"
-                            app:icon_press="@drawable/blinklight"/>
+                            app:ball_release_color="@android:color/white"
+                            app:base_press_color="@android:color/holo_orange_light"
+                            app:base_release_color="@android:color/holo_orange_dark"
+                            app:icon_press="@drawable/blinklight"
+                            app:icon_release="@drawable/solidlight" />
                     </RelativeLayout>
 
                 </LinearLayout>

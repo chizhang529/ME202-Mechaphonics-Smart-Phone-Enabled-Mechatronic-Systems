@@ -31,12 +31,17 @@ public class LoginActivity extends AppCompatActivity {
 
         // set password invisible (dots rather than text)
         passwordText.setTransformationMethod(new PasswordTransformationMethod());
+
+        // clear text
+        usernameText.setText("");
+        passwordText.setText("");
     }
 
     public void login(View view) {
         String username = usernameText.getText().toString();
         String password = passwordText.getText().toString();
 
+        // hardcode valid username and password
         if (username.equals("czhang94") && password.equals("me202rocks")) {
             Intent intent = new Intent(this, ControlActivity.class);
             startActivity(intent);
