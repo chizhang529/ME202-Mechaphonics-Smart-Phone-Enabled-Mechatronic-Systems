@@ -45,6 +45,7 @@ public class LoginActivity extends AppCompatActivity {
         if (username.equals("czhang94") && password.equals("me202rocks")) {
             Intent intent = new Intent(this, ControlActivity.class);
             startActivity(intent);
+            finish();
         } else {
             Toast warningMessage = Toast.makeText(getApplicationContext(), "Error: incorrect username or password!", Toast.LENGTH_SHORT);
             warningMessage.show();
