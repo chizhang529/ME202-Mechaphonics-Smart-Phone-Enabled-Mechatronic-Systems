@@ -49,6 +49,8 @@ public class LoginActivity extends AppCompatActivity {
         } else {
             Toast warningMessage = Toast.makeText(getApplicationContext(), "Error: incorrect username or password!", Toast.LENGTH_SHORT);
             warningMessage.show();
+            usernameText.setText("");
+            passwordText.setText("");
         }
     }
 }
