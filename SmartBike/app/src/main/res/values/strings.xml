@@ -1,5 +1,5 @@
 <resources>
-    <string name ="app_name">Lab1_SmartBike</string>
+    <string name ="app_name">SmartBike</string>
     <string name ="welcometext">Welcome to Smart Bike!</string>
     <string name ="usernamehint">Username&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;</string>
     <string name ="passwordhint">Password&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;</string>
