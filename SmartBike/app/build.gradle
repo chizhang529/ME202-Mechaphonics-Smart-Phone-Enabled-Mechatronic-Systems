@@ -1,4 +1,5 @@
 apply plugin: 'com.android.application'
+apply plugin: 'realm-android' // Realm
 
 android {
     compileSdkVersion 25
@@ -24,10 +25,19 @@ dependencies {
     androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
+    // Constraint layout
+    // Recycler view
+    // Image processing (Picasso)
+    // View injector (ButterKnife)
+    // Gif views
+    // Customized material switch
     compile 'com.android.support:appcompat-v7:25.3.1'
     compile 'com.android.support.constraint:constraint-layout:1.0.2'
+    compile 'com.android.support:recyclerview-v7:25.3.1'
+    compile 'com.squareup.picasso:picasso:2.5.2'
+    compile 'com.jakewharton:butterknife:8.5.1'
     compile 'pl.droidsonroids.gif:android-gif-drawable:1.2.+'
     compile 'com.github.glomadrian:MaterialAnimatedSwitch:1.1@aar'
-    compile 'us.belka:androidtoggleswitch:1.2.2'
     testCompile 'junit:junit:4.12'
+    annotationProcessor 'com.jakewharton:butterknife-compiler:8.5.1'
 }

@@ -1,33 +1,32 @@
-package edu.stanford.me202.lab1_smartbike;
+package edu.stanford.me202.smartbike;
 
 import android.content.DialogInterface;
-import android.nfc.Tag;
+import android.content.Intent;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.text.Editable;
 import android.text.InputType;
-import android.text.TextWatcher;
-import android.util.Log;
 import android.view.View;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
 import com.github.glomadrian.materialanimatedswitch.MaterialAnimatedSwitch;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
+
 public class ControlActivity extends AppCompatActivity {
-    private MaterialAnimatedSwitch lightMode;
-    private MaterialAnimatedSwitch lightState;
+
+    @BindView(R.id.lightmode_switch)
+    MaterialAnimatedSwitch lightMode;
+    @BindView(R.id.lightstate_switch)
+    MaterialAnimatedSwitch lightState;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_control);
-
-        // initialize objects
-        lightMode = (MaterialAnimatedSwitch) findViewById(R.id.lightmode_switch);
-        lightState = (MaterialAnimatedSwitch) findViewById(R.id.lightstate_switch);
+        ButterKnife.bind(this);
     }
 
     public void unlock(View view) {
@@ -64,5 +63,10 @@ public class ControlActivity extends AppCompatActivity {
 
         final AlertDialog unlockDialog = unlockDialogBuilder.create();
         unlockDialog.show();
+    }
+
+    public void showRideHistory(View view) {
+        Intent intent = new Intent(this, RideHistoryActivity.class);
+        startActivity(intent);
     }
 }

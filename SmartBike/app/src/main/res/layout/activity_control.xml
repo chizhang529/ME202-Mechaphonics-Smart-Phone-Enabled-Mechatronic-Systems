@@ -10,7 +10,7 @@
     android:paddingRight="16dp"
     android:paddingTop="16dp"
     android:orientation="vertical"
-    tools:context="edu.stanford.me202.lab1_smartbike.ControlActivity">
+    tools:context="edu.stanford.me202.smartbike.ControlActivity">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -23,9 +23,9 @@
             android:layout_height="0dp"
             android:layout_weight="3"
             android:background="@android:color/white"
+            android:onClick="unlock"
             android:scaleType="fitCenter"
-            android:src="@drawable/unlock"
-            android:onClick="unlock"/>
+            android:src="@drawable/unlock" />
 
         <TextView
             android:layout_width="match_parent"
@@ -87,7 +87,8 @@
                             app:base_press_color="@color/autoiconColor"
                             app:base_release_color="@color/oniconColor"
                             app:icon_press="@drawable/auto"
-                            app:icon_release="@drawable/on" />
+                            app:icon_release="@drawable/on"
+                            android:clickable="false"/>
                     </RelativeLayout>
 
                 </LinearLayout>
@@ -127,7 +128,8 @@
                             app:base_press_color="@android:color/holo_orange_light"
                             app:base_release_color="@android:color/holo_orange_dark"
                             app:icon_press="@drawable/blinklight"
-                            app:icon_release="@drawable/solidlight" />
+                            app:icon_release="@drawable/solidlight"
+                            android:clickable="false"/>
                     </RelativeLayout>
 
                 </LinearLayout>
@@ -140,7 +142,8 @@
                 android:layout_weight="1.5"
                 android:background="@android:color/white"
                 android:scaleType="fitCenter"
-                android:src="@drawable/ridehistory">
+                android:src="@drawable/ridehistory"
+                android:onClick="showRideHistory">
 
             </ImageButton>
 

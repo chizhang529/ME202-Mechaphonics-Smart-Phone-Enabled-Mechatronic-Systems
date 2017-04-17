@@ -9,7 +9,7 @@
     android:paddingRight="16dp"
     android:paddingTop="16dp"
     android:orientation="vertical"
-    tools:context="edu.stanford.me202.lab1_smartbike.LoginActivity">
+    tools:context="edu.stanford.me202.smartbike.LoginActivity">
 
     <TextView
         android:id="@+id/welcomeText"

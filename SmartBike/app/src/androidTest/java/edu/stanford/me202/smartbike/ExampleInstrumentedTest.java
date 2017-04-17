@@ -1,4 +1,4 @@
-package edu.stanford.me202.lab1_smartbike;
+package edu.stanford.me202.smartbike;
 
 import android.content.Context;
 import android.support.test.InstrumentationRegistry;

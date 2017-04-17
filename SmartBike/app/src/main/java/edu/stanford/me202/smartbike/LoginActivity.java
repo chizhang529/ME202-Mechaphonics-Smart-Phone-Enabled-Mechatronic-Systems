@@ -1,4 +1,4 @@
-package edu.stanford.me202.lab1_smartbike;
+package edu.stanford.me202.smartbike;
 
 import android.content.Intent;
 import android.graphics.Typeface;
@@ -10,20 +10,24 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import butterknife.BindView;
+import butterknife.BindViews;
+import butterknife.ButterKnife;
+
 public class LoginActivity extends AppCompatActivity {
-    private EditText usernameText;
-    private EditText passwordText;
-    private TextView welcomeText;
+
+    @BindView(R.id.welcomeText)
+    TextView welcomeText;
+    @BindView(R.id.username)
+    EditText usernameText;
+    @BindView(R.id.password)
+    EditText passwordText;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
-
-        // initialize objects
-        welcomeText = (TextView) findViewById(R.id.welcomeText);
-        usernameText = (EditText) findViewById(R.id.username);
-        passwordText = (EditText) findViewById(R.id.password);
+        ButterKnife.bind(this);
 
         // display welcome text
         Typeface font = Typeface.createFromAsset(getAssets(), "fonts/magnoliascript.otf");
@@ -42,9 +46,10 @@ public class LoginActivity extends AppCompatActivity {
         String password = passwordText.getText().toString();
 
         // hardcode valid username and password
-        if (username.equals("czhang94") && password.equals("me202rocks")) {
+        if (username.equals("czhang94") && password.equals("smartbike")) {
             Intent intent = new Intent(this, ControlActivity.class);
             startActivity(intent);
+            // user will not return to login activity one they leave
             finish();
         } else {
             Toast warningMessage = Toast.makeText(getApplicationContext(), "Error: incorrect username or password!", Toast.LENGTH_SHORT);
