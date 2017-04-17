@@ -12,6 +12,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:name=".SmarkBikeApp">
+
         <activity android:name=".LoginActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -21,6 +22,7 @@
         </activity>
         <activity android:name=".ControlActivity" />
         <activity android:name=".RideHistoryActivity"></activity>
+
     </application>
 
 </manifest>

@@ -3,20 +3,31 @@ package edu.stanford.me202.smartbike;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 
+import io.realm.RealmObject;
+import io.realm.annotations.PrimaryKey;
+import io.realm.annotations.Required;
+
 /**
  * Created by czhang on 4/16/17.
  */
 
-public class Ride {
-    private int iconID;
-    private String location;
-    private String date;
-    private SimpleDateFormat dateFormat = new SimpleDateFormat("MM/dd/yyyy");
+public class Ride extends RealmObject{
 
-    public Ride(int iconID, String location, Calendar calendar) {
+    @PrimaryKey
+    @Required
+    private String location;
+
+    private int iconID;
+    private String date;
+
+    public Ride() {
+        // need an empty constructor to make Realm work
+    }
+
+    public Ride(int iconID, String location, String dateToday) {
         this.iconID = iconID;
         this.location = location;
-        this.date = dateFormat.format(calendar.getTime());
+        this.date = dateToday;
     }
 
     public int getIconID() {

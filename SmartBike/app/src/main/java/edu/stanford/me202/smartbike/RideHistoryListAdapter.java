@@ -14,6 +14,9 @@ import java.util.ArrayList;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import io.realm.Realm;
+import io.realm.RealmResults;
+import io.realm.Sort;
 
 import static edu.stanford.me202.smartbike.R.id.parent;
 
@@ -23,14 +26,19 @@ import static edu.stanford.me202.smartbike.R.id.parent;
 
 public class RideHistoryListAdapter extends RecyclerView.Adapter<RideHistoryListAdapter.rideViewHolder> {
 
-    private ArrayList<Ride> rideHistoryList = new ArrayList<>();
     private Context context;
+    private RealmResults<Ride> results;
+    private int rideCount;
 
     // Constructor
-    public RideHistoryListAdapter(Context ctx, ArrayList<Ride> rideHistoryList) {
+    public RideHistoryListAdapter(Context ctx) {
         this.context = ctx;
-        this.rideHistoryList = rideHistoryList;
+        try(Realm realm = Realm.getDefaultInstance()) {
+            results = realm.where(Ride.class).findAll().sort("date", Sort.DESCENDING);
+            rideCount = results.size();
+        }
     }
+
 
     public static class rideViewHolder extends RecyclerView.ViewHolder {
         @BindView(R.id.ride_icon)
@@ -55,15 +63,20 @@ public class RideHistoryListAdapter extends RecyclerView.Adapter<RideHistoryList
 
     @Override
     public void onBindViewHolder(rideViewHolder holder, int position) {
-        holder.location.setText(rideHistoryList.get(position).getLocation());
-        holder.date.setText(rideHistoryList.get(position).getDate());
+        Ride ride = results.get(position);
+        holder.location.setText(ride.getLocation());
+        holder.date.setText(ride.getDate());
         Picasso.with(context)
-                .load(rideHistoryList.get(position).getIconID())
+                .load(ride.getIconID())
                 .into(holder.icon);
     }
 
     @Override
     public int getItemCount() {
-        return rideHistoryList.size();
+        return rideCount;
+    }
+
+    public RealmResults<Ride> getResults() {
+        return results;
     }
 }

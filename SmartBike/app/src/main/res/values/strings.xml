@@ -15,4 +15,6 @@
     <string name="unlockDialogHint">Enter bike identifier here</string>
 
     <string name="enterYourLocation">New ride? Enter your location here</string>
+    <string name="addRide">Add Your Ride</string>
+    <string name="deleteRide">Are you sure to delete this ride?</string>
 </resources>
