@@ -36,9 +36,9 @@ public class LoginActivity extends AppCompatActivity {
         // set password invisible (dots rather than text)
         passwordText.setTransformationMethod(new PasswordTransformationMethod());
 
-        // clear text
-        usernameText.setText("");
-        passwordText.setText("");
+        // hardcode for quick login
+        usernameText.setText("czhang94");
+        passwordText.setText("smartbike");
     }
 
     public void login(View view) {
@@ -54,6 +54,7 @@ public class LoginActivity extends AppCompatActivity {
         } else {
             Toast warningMessage = Toast.makeText(getApplicationContext(), "Error: incorrect username or password!", Toast.LENGTH_SHORT);
             warningMessage.show();
+            // clear text
             usernameText.setText("");
             passwordText.setText("");
         }

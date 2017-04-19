@@ -15,10 +15,10 @@ public class Ride extends RealmObject{
 
     @PrimaryKey
     @Required
-    private String location;
-
-    private int iconID;
     private String date;
+    @Required
+    private String location;
+    private int iconID;
 
     public Ride() {
         // need an empty constructor to make Realm work

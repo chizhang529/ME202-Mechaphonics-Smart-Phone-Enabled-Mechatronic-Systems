@@ -28,14 +28,12 @@ public class RideHistoryListAdapter extends RecyclerView.Adapter<RideHistoryList
 
     private Context context;
     private RealmResults<Ride> results;
-    private int rideCount;
 
     // Constructor
     public RideHistoryListAdapter(Context ctx) {
         this.context = ctx;
         try(Realm realm = Realm.getDefaultInstance()) {
             results = realm.where(Ride.class).findAll().sort("date", Sort.DESCENDING);
-            rideCount = results.size();
         }
     }
 
@@ -73,7 +71,10 @@ public class RideHistoryListAdapter extends RecyclerView.Adapter<RideHistoryList
 
     @Override
     public int getItemCount() {
-        return rideCount;
+        try(Realm realm = Realm.getDefaultInstance()) {
+            results = realm.where(Ride.class).findAll().sort("date", Sort.DESCENDING);
+        }
+        return results.size();
     }
 
     public RealmResults<Ride> getResults() {

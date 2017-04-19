@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.helper.ItemTouchHelper;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -33,24 +34,27 @@ public class RideHistoryActivity extends AppCompatActivity {
     EditText rideLocation;
     @BindView(R.id.userAvatar)
     ImageView userAvatar;
+    @BindView(R.id.addRide_btn)
+    Button addRideBtn;
 
     private Realm realm;
-   // private ArrayList<Ride> rideHistory = new ArrayList<>();
-    private Calendar calendar = Calendar.getInstance();
-    private SimpleDateFormat dateFormat = new SimpleDateFormat("MM/dd/yyyy");
-    private String dateToday = dateFormat.format(calendar.getTime());
+    private Calendar calendar;
+    private SimpleDateFormat dateFormat = new SimpleDateFormat("MM/dd/yyyy h:mm:ss a");
+    private String dateToday;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_ride_history);
+        // butterknife
         ButterKnife.bind(this);
         // realm DB
         realm = Realm.getDefaultInstance();
 
-        // default settings
-        Ride r1 = new Ride(R.drawable.losangeles, "Los Angeles", "04/15/2017");
-        Ride r2 = new Ride(R.drawable.sanfrancisco, "San Francisco", "04/15/2016");
+        // default settings (hardcode for now), will be added to Realm and show up
+        // when Realm initially has no objects
+        Ride r1 = new Ride(R.drawable.losangeles, "Los Angeles", "07/01/2017 09:07:21 AM");
+        Ride r2 = new Ride(R.drawable.sanfrancisco, "San Francisco", "02/04/2016 10:20:30 PM");
         // modification of realm must happen in transaction but read-only does not require transaction
         realm.beginTransaction();
         if (realm.isEmpty()) {
@@ -89,32 +93,31 @@ public class RideHistoryActivity extends AppCompatActivity {
 
             @Override
             public void onSwiped(final RecyclerView.ViewHolder viewHolder, int direction) {
-                final int position = viewHolder.getAdapterPosition(); //get position which is swipe
+                AlertDialog.Builder builder = new AlertDialog.Builder(RideHistoryActivity.this);
+                builder.setTitle(R.string.deleteRide);
+                builder.setIcon(R.drawable.warning);
 
                 if (direction == ItemTouchHelper.LEFT) {
-                    AlertDialog.Builder builder = new AlertDialog.Builder(RideHistoryActivity.this);
-                    builder.setMessage(R.string.deleteRide);
-                    builder.setIcon(R.drawable.warning);
-
                     builder.setPositiveButton("REMOVE", new DialogInterface.OnClickListener() { //when click on DELETE
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
+                            int position = viewHolder.getAdapterPosition(); //get position which is swipe
                             realm.beginTransaction();
                             Ride ride2delete = realm.where(Ride.class)
-                                    .equalTo("location", adapter.getResults().get(position).getLocation())
+                                    .equalTo("date", adapter.getResults().get(position).getDate())
                                     .findFirst();
-                            ride2delete.deleteFromRealm();
+                            ride2delete.deleteFromRealm(ride2delete);
                             realm.commitTransaction();
 
-                            RideHistoryListAdapter adapter1 = new RideHistoryListAdapter(RideHistoryActivity.this);
-                            rideHistoryList.setAdapter(adapter1);
+                            // update recycler view
+                            adapter.notifyDataSetChanged();
                             return;
                         }
                     }).setNegativeButton("CANCEL", new DialogInterface.OnClickListener() {  //not removing items if cancel is done
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
-                            RideHistoryListAdapter adapter2 = new RideHistoryListAdapter(RideHistoryActivity.this);
-                            rideHistoryList.setAdapter(adapter2);
+                            // do nothing, just update recycler view
+                            adapter.notifyDataSetChanged();
                             return;
                         }
                     }).show();
@@ -124,36 +127,44 @@ public class RideHistoryActivity extends AppCompatActivity {
         ItemTouchHelper itemTouchHelper = new ItemTouchHelper(simpleCallback);
         itemTouchHelper.attachToRecyclerView(rideHistoryList);
 
+
+        addRideBtn.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v) {
+                String locationStr = rideLocation.getText().toString();
+                // update time
+                calendar = Calendar.getInstance();
+                dateToday = dateFormat.format(calendar.getTime());
+
+                if (locationStr.isEmpty()) {
+                    Toast toast1 = Toast.makeText(RideHistoryActivity.this, "Error: location CANNOT be empty!", Toast.LENGTH_SHORT);
+                    toast1.show();
+                } else {
+                    // add new ride to realm
+                    Ride newRide = new Ride(R.drawable.unknownlocation, locationStr, dateToday);
+                    realm.beginTransaction();
+                    realm.copyToRealm(newRide);
+                    realm.commitTransaction();
+
+                    // show error message
+                    Toast toast2 = Toast.makeText(RideHistoryActivity.this, "Hooray! Added a new ride!", Toast.LENGTH_SHORT);
+                    toast2.show();
+
+                    // clear user input
+                    rideLocation.setText("");
+                }
+
+                // update Recycler view
+                adapter.notifyDataSetChanged();
+            }
+        });
     }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
+        // close realm instance
         realm.close();
     }
 
-    public void addRide(View view) {
-        String locationStr = rideLocation.getText().toString();
-
-        if (locationStr.isEmpty()) {
-            Toast toast1 = Toast.makeText(this, "Error: location CANNOT be empty!", Toast.LENGTH_SHORT);
-            toast1.show();
-        } else {
-            // add new ride to realm
-            Ride newRide = new Ride(R.drawable.unknownlocation, locationStr, dateToday);
-            realm.beginTransaction();
-            realm.copyToRealm(newRide);
-            realm.commitTransaction();
-
-            // show error message
-            Toast toast2 = Toast.makeText(this, "Hooray! Added a new ride!", Toast.LENGTH_SHORT);
-            toast2.show();
-
-            // clear user input
-            rideLocation.setText("");
-        }
-
-        RideHistoryListAdapter updateAdapter = new RideHistoryListAdapter(this);
-        rideHistoryList.setAdapter(updateAdapter);
-    }
 }
