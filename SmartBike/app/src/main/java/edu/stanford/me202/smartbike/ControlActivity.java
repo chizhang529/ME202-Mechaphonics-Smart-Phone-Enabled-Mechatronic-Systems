@@ -30,6 +30,7 @@ public class ControlActivity extends AppCompatActivity {
     }
 
     public void unlock(View view) {
+        // configure attributes of dialog
         AlertDialog.Builder unlockDialogBuilder = new AlertDialog.Builder(this);
         unlockDialogBuilder.setTitle(R.string.unlockDialogTitle);
         unlockDialogBuilder.setCancelable(true);
@@ -60,7 +61,7 @@ public class ControlActivity extends AppCompatActivity {
                     }
                 });
 
-
+        // show dialog
         final AlertDialog unlockDialog = unlockDialogBuilder.create();
         unlockDialog.show();
     }

@@ -33,6 +33,7 @@ public class RideHistoryListAdapter extends RecyclerView.Adapter<RideHistoryList
     public RideHistoryListAdapter(Context ctx) {
         this.context = ctx;
         try(Realm realm = Realm.getDefaultInstance()) {
+            // results are sorted in descending order of date
             results = realm.where(Ride.class).findAll().sort("date", Sort.DESCENDING);
         }
     }
@@ -71,6 +72,7 @@ public class RideHistoryListAdapter extends RecyclerView.Adapter<RideHistoryList
 
     @Override
     public int getItemCount() {
+        // make sure query here to update results
         try(Realm realm = Realm.getDefaultInstance()) {
             results = realm.where(Ride.class).findAll().sort("date", Sort.DESCENDING);
         }

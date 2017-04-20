@@ -20,8 +20,11 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
         <activity android:name=".ControlActivity" />
-        <activity android:name=".RideHistoryActivity"></activity>
+
+        <activity android:name=".RideHistoryActivity"
+            android:windowSoftInputMode="adjustPan"/>
 
     </application>
 

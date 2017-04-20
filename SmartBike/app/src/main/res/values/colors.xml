@@ -5,4 +5,5 @@
     <color name="colorAccent">#FF4081</color>
     <color name="autoiconColor">#933EC5</color>
     <color name="oniconColor">#2695BD</color>
+    <color name="ghostWhite">#F0F7FF</color>
 </resources>

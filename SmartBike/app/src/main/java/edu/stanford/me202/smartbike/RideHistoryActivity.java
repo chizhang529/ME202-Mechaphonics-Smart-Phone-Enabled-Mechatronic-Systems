@@ -5,6 +5,7 @@ import android.media.Image;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.helper.ItemTouchHelper;
@@ -20,6 +21,7 @@ import com.squareup.picasso.Picasso;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Locale;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -39,7 +41,7 @@ public class RideHistoryActivity extends AppCompatActivity {
 
     private Realm realm;
     private Calendar calendar;
-    private SimpleDateFormat dateFormat = new SimpleDateFormat("MM/dd/yyyy h:mm:ss a");
+    private SimpleDateFormat dateFormat = new SimpleDateFormat("MM/dd/yyyy h:mm:ss a", Locale.US);
     private String dateToday;
 
     @Override
@@ -81,10 +83,14 @@ public class RideHistoryActivity extends AppCompatActivity {
         // create Recycler view here
         LinearLayoutManager manager = new LinearLayoutManager(this);
         rideHistoryList.setLayoutManager(manager);
+        DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(rideHistoryList.getContext(),
+                manager.getOrientation());
+        rideHistoryList.addItemDecoration(dividerItemDecoration);
 
         final RideHistoryListAdapter adapter = new RideHistoryListAdapter(this);
         rideHistoryList.setAdapter(adapter);
 
+        // handles user swipes, here only configure it to handle swipe to left motion
         ItemTouchHelper.SimpleCallback simpleCallback = new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT) {
             @Override
             public boolean onMove(RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder, RecyclerView.ViewHolder target) {
@@ -96,12 +102,15 @@ public class RideHistoryActivity extends AppCompatActivity {
                 AlertDialog.Builder builder = new AlertDialog.Builder(RideHistoryActivity.this);
                 builder.setTitle(R.string.deleteRide);
                 builder.setIcon(R.drawable.warning);
+                builder.setCancelable(false);
 
                 if (direction == ItemTouchHelper.LEFT) {
                     builder.setPositiveButton("REMOVE", new DialogInterface.OnClickListener() { //when click on DELETE
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
                             int position = viewHolder.getAdapterPosition(); //get position which is swipe
+
+                            // delete data from Realm
                             realm.beginTransaction();
                             Ride ride2delete = realm.where(Ride.class)
                                     .equalTo("date", adapter.getResults().get(position).getDate())
