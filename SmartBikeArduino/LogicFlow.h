@@ -20,5 +20,6 @@ bool PostLogicFlow ( ES_Event ThisEvent );
 ES_Event RunLogicFlow ( ES_Event ThisEvent );
 void setLightMode(int newLightMode);
 void setLightState(int newLightState);
+void resetSM(void);
 
 #endif /* LogicFlow_H */

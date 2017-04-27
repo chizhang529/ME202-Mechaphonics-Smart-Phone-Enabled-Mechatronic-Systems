@@ -27,6 +27,7 @@
 #define HALF_SEC (ONE_SEC/2)
 #define QUARTER_SEC (ONE_SEC/4)
 #define ONE_EIGHTH_SEC (ONE_SEC/8)
+#define ONE_TENTH_SEC (ONE_SEC/10)
 #define TWO_SEC (ONE_SEC*2)
 #define FIVE_SEC (ONE_SEC*5)
 
@@ -135,11 +136,11 @@ ES_Event RunLightSensorService( ES_Event ThisEvent )
 
   switch (ThisEvent.EventType){
     case ES_INIT :
-	    ES_Timer_InitTimer(LIGHT_SENSOR_TIMER, ONE_EIGHTH_SEC);
+	    ES_Timer_InitTimer(LIGHT_SENSOR_TIMER, ONE_TENTH_SEC);
     break;
 
     case ES_TIMEOUT :
-      ES_Timer_InitTimer(LIGHT_SENSOR_TIMER, ONE_EIGHTH_SEC);
+      ES_Timer_InitTimer(LIGHT_SENSOR_TIMER, ONE_TENTH_SEC);
       // check light condition
 	    lightValue = analogRead(lightSensorPin);
 
@@ -148,7 +149,7 @@ ES_Event RunLightSensorService( ES_Event ThisEvent )
 	    } else { // light is HIGH (bright)
         lightCondition = BRIGHT;
 	    }
-      
+
     break;
 
     default: break;

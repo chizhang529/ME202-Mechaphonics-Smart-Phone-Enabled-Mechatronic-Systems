@@ -93,6 +93,7 @@ Adafruit_BluefruitLE_UART ble(bluefruitSS, BLUEFRUIT_UART_MODE_PIN,
 #include "./Framework/ES_Framework.h"
 #include "./Framework/ES_DeferRecall.h"
 #include "BluetoothService.h"
+#include "LogicFlow.h"
 
 /*----------------------------- Module Defines ----------------------------*/
 // these times assume a 10.24mS/tick timing
@@ -100,11 +101,19 @@ Adafruit_BluefruitLE_UART ble(bluefruitSS, BLUEFRUIT_UART_MODE_PIN,
 #define ONE_SEC 98
 #define HALF_SEC (ONE_SEC/2)
 #define QUARTER_SEC (ONE_SEC/4)
+#define ONE_EIGHTH_SEC (ONE_SEC/8)
+#define ONE_TENTH_SEC (ONE_SEC/10)
 #define TWO_SEC (ONE_SEC*2)
 #define FIVE_SEC (ONE_SEC*5)
 // connection status
 #define DISCONNECTED 0
 #define CONNECTED 1
+// light modes
+#define BLINK 0
+#define SOLID 1
+// light state
+#define OFF 0 // which means AUTO mode
+#define ON 1
 
 /*---------------------------- Module Functions ---------------------------*/
 /* prototypes for private functions for this service.They should be functions
@@ -165,10 +174,12 @@ bool InitBluetoothService ( uint8_t Priority )
   Serial.println();
 
   ble.verbose(false);  // debug info is a little annoying after this point!
+  // Set module to DATA mode
+  ble.setMode(BLUEFRUIT_MODE_DATA);
 
   CurrentBLEState = Initializing;
   isConnected = DISCONNECTED;
-  ES_Timer_InitTimer(BLE_CHECK_TIMER, HALF_SEC);
+  ES_Timer_InitTimer(BLE_CHECK_TIMER, ONE_TENTH_SEC);
 
   // post the initial transition event
   ThisEvent.EventType = ES_INIT;
@@ -217,15 +228,23 @@ bool PostBluetoothService( ES_Event ThisEvent )
 ES_Event RunBluetoothService( ES_Event ThisEvent )
 {
   ES_Event ReturnEvent;
+  BLEState_t LastBLEState;
   ReturnEvent.EventType = ES_NO_EVENT; // assume no errors
-
+  
   if (ThisEvent.EventType == ES_TIMEOUT && ThisEvent.EventParam == BLE_CHECK_TIMER) {
     if (ble.isConnected()) {
+      LastBLEState = CurrentBLEState;
       CurrentBLEState = Connected;
+      if (LastBLEState == Disconnected) {
+        setLightMode(OFF);
+        setLightMode(SOLID);
+      }
     } else {
+      LastBLEState = CurrentBLEState;
       CurrentBLEState = Disconnected;
+      if (LastBLEState == Connected) resetSM();
     }
-    ES_Timer_InitTimer(BLE_CHECK_TIMER, HALF_SEC);
+    ES_Timer_InitTimer(BLE_CHECK_TIMER, ONE_TENTH_SEC);
   }
 
   switch (CurrentBLEState) {
@@ -238,10 +257,27 @@ ES_Event RunBluetoothService( ES_Event ThisEvent )
 //      Serial.println( F("        BLE Connected!          ") );
 //      Serial.println( F("Bluefruit ready in DATA mode!") );
 //      Serial.println(F("**********************************"));
-      // Set module to DATA mode
-      ble.setMode(BLUEFRUIT_MODE_DATA);
       // set current connection status
       isConnected = CONNECTED;
+      
+      if (ThisEvent.EventType == ES_BLE_DATA) {
+        int cmdIndex = ThisEvent.EventParam;
+        
+        if (cmdIndex == 0) {
+          setLightState(ON);
+        } else if (cmdIndex == 1) {
+          setLightState(OFF);
+        } else if (cmdIndex == 2) {
+          setLightMode(SOLID);
+        } else if (cmdIndex == 3) {
+          setLightMode(BLINK);
+        } else if (cmdIndex == 4) {
+          resetSM();
+        } else if (cmdIndex == 5) {
+          setLightMode(OFF);
+          setLightMode(SOLID);
+        }
+      }  
     break;
 
     case Disconnected:
@@ -261,6 +297,60 @@ ES_Event RunBluetoothService( ES_Event ThisEvent )
 
 int getConnectionStatus(void) {
   return isConnected;
+}
+
+bool checkBLEdata(void) {
+  if (ble.available()) {
+        ble.readline(); // Some data was found, its in the buffer
+
+        // light state: ON->0, AUTO->1
+        if (strcmp(ble.buffer, "nn") == 0) {
+          ES_Event Event2Post;
+          Event2Post.EventType = ES_BLE_DATA;
+          Event2Post.EventParam = 0;
+          PostBluetoothService(Event2Post);
+        }
+
+        if (strcmp(ble.buffer, "aa") == 0) {
+          ES_Event Event2Post;
+          Event2Post.EventType = ES_BLE_DATA;
+          Event2Post.EventParam = 1;
+          PostBluetoothService(Event2Post);
+        }
+
+        // light mode: SOLID->2, BLINK->3
+        if (strcmp(ble.buffer, "ss") == 0) {
+          ES_Event Event2Post;
+          Event2Post.EventType = ES_BLE_DATA;
+          Event2Post.EventParam = 2;
+          PostBluetoothService(Event2Post);
+        }
+
+        if (strcmp(ble.buffer, "bb") == 0) {
+          ES_Event Event2Post;
+          Event2Post.EventType = ES_BLE_DATA;
+          Event2Post.EventParam = 3;
+          PostBluetoothService(Event2Post);
+        }
+
+        // disconnect and reset
+        if (strcmp(ble.buffer, "r") == 0) {
+          ES_Event Event2Post;
+          Event2Post.EventType = ES_BLE_DATA;
+          Event2Post.EventParam = 4;
+          PostBluetoothService(Event2Post);
+        }
+
+        // connect
+        if (strcmp(ble.buffer, "c") == 0) {
+          ES_Event Event2Post;
+          Event2Post.EventType = ES_BLE_DATA;
+          Event2Post.EventParam = 5;
+          PostBluetoothService(Event2Post);
+        }
+        return true;
+  }
+  return false;
 }
 
 /***************************************************************************

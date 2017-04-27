@@ -3,11 +3,15 @@
     <string name="welcometext">Welcome to Smart Bike!</string>
     <string name="usernamehint">Username&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;</string>
     <string name="passwordhint">Password&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;</string>
-    <string name="connectionstatus">Connection: Diconnected</string>
-    <string name="bikecode">Bike Identifier: Unknown</string>
-    <string name="unlockhint">Press to Unlock</string>
-    <string name="lightstatehint">Light State: ON/AUTO</string>
-    <string name="lightmodehint">Light Mode: Solid/Blink</string>
+    <string name="bikecodeNULL">Bike Identifier: Unknown</string>
+    <string name="disconnectwarning">Bike Disconnected!</string>
+    <string name="emptybikeIDerror">Error: please enter an valid bike identifier</string>
+    <string name="bikeIdentifier">C6:12:0F:68:4C:91</string>
+
+    <string name="lightstateON">Light State: ON</string>
+    <string name="lightstateAUTO">Light State: AUTO</string>
+    <string name="lightmodeSOLID">Light Mode: Solid</string>
+    <string name="lightmodeBLINK">Light Mode: Blink</string>
 
     <string name="unlockDialogYes">Connect</string>
     <string name="unlockDialogNo">Cancel</string>
@@ -17,4 +21,11 @@
     <string name="enterYourLocation">New ride? Enter your location here</string>
     <string name="addRide">Add Your Ride</string>
     <string name="deleteRide">Are you sure to delete this ride?</string>
+
+    <string name="connectionYes">Connection: Connected</string>
+    <string name="connectionNo">Connection: Disconnected</string>
+    <string name="bikeID">Bike Identifier:&#160;</string>
+
+    <string name="lockhint">Press to lock</string>
+    <string name="unlockhint">Press to Unlock</string>
 </resources>

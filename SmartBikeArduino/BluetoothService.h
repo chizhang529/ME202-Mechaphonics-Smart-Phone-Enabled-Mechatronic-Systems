@@ -19,5 +19,6 @@ bool InitBluetoothService( uint8_t Priority );
 bool PostBluetoothService( ES_Event ThisEvent );
 ES_Event RunBluetoothService( ES_Event ThisEvent );
 int getConnectionStatus(void);
+bool checkBLEdata(void);
 
 #endif /* BluetoothService_H */

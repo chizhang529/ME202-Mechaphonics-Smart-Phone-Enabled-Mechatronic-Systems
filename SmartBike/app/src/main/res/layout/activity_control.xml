@@ -28,6 +28,7 @@
             android:src="@drawable/unlock" />
 
         <TextView
+            android:id="@+id/lock_unlock"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="0.8"
@@ -69,7 +70,7 @@
                             android:layout_centerHorizontal="true"
                             android:fontFamily="sans-serif-condensed"
                             android:paddingBottom="15dp"
-                            android:text="@string/lightstatehint"
+                            android:text="@string/lightstateAUTO"
                             android:textColor="@android:color/black"
                             android:textSize="15sp" />
 
@@ -80,14 +81,14 @@
                             android:layout_centerHorizontal="true"
                             android:layout_centerVertical="true"
                             android:layout_gravity="center"
-                            android:scaleX="2.5"
-                            android:scaleY="2.5"
+                            android:scaleX="2"
+                            android:scaleY="2"
                             app:ball_press_color="@android:color/white"
                             app:ball_release_color="@android:color/white"
-                            app:base_press_color="@color/autoiconColor"
-                            app:base_release_color="@color/oniconColor"
-                            app:icon_press="@drawable/auto"
-                            app:icon_release="@drawable/on"
+                            app:base_press_color="@color/oniconColor"
+                            app:base_release_color="@color/autoiconColor"
+                            app:icon_press="@drawable/on"
+                            app:icon_release="@drawable/auto"
                             android:clickable="false"/>
                     </RelativeLayout>
 
@@ -110,7 +111,7 @@
                             android:layout_centerHorizontal="true"
                             android:fontFamily="sans-serif-condensed"
                             android:paddingBottom="15dp"
-                            android:text="@string/lightmodehint"
+                            android:text="@string/lightmodeSOLID"
                             android:textColor="@android:color/black"
                             android:textSize="15sp" />
 
@@ -121,8 +122,8 @@
                             android:layout_centerHorizontal="true"
                             android:layout_centerVertical="true"
                             android:layout_gravity="center"
-                            android:scaleX="2.5"
-                            android:scaleY="2.5"
+                            android:scaleX="2"
+                            android:scaleY="2"
                             app:ball_press_color="@android:color/white"
                             app:ball_release_color="@android:color/white"
                             app:base_press_color="@android:color/holo_orange_light"
@@ -178,7 +179,7 @@
                 android:fontFamily="sans-serif-condensed"
                 android:textColor="@android:color/black"
                 android:textSize="18sp"
-                android:text="@string/connectionstatus"/>
+                android:text="@string/connectionNo"/>
         </RelativeLayout>
     </LinearLayout>
 
@@ -209,7 +210,7 @@
                 android:fontFamily="sans-serif-condensed"
                 android:textColor="@android:color/black"
                 android:textSize="18sp"
-                android:text="@string/bikecode"/>
+                android:text="@string/bikecodeNULL"/>
         </RelativeLayout>
     </LinearLayout>
 </LinearLayout>

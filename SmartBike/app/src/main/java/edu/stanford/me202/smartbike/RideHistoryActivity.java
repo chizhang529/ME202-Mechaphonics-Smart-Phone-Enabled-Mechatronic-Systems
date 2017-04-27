@@ -55,8 +55,8 @@ public class RideHistoryActivity extends AppCompatActivity {
 
         // default settings (hardcode for now), will be added to Realm and show up
         // when Realm initially has no objects
-        Ride r1 = new Ride(R.drawable.losangeles, "Los Angeles", "07/01/2017 09:07:21 AM");
-        Ride r2 = new Ride(R.drawable.sanfrancisco, "San Francisco", "02/04/2016 10:20:30 PM");
+        Ride r1 = new Ride(R.drawable.bluetooth, "Los Angeles", "07/01/2017 09:07:21 AM");
+        Ride r2 = new Ride(R.drawable.bluetooth, "San Francisco", "02/04/2016 10:20:30 PM");
         // modification of realm must happen in transaction but read-only does not require transaction
         realm.beginTransaction();
         if (realm.isEmpty()) {
@@ -66,7 +66,7 @@ public class RideHistoryActivity extends AppCompatActivity {
         realm.commitTransaction();
 
         Picasso.with(this)
-                .load(R.drawable.czhang)
+                .load(R.drawable.auto)
                 .transform(new CircleTransform())
                 .into(userAvatar);
     }

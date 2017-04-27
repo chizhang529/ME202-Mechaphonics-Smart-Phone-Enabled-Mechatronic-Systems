@@ -32,6 +32,10 @@
 #define QUARTER_SEC (ONE_SEC/4)
 #define TWO_SEC (ONE_SEC*2)
 #define FIVE_SEC (ONE_SEC*5)
+#define HALF_SEC (ONE_SEC/2)
+#define QUARTER_SEC (ONE_SEC/4)
+#define ONE_EIGHTH_SEC (ONE_SEC/8)
+#define ONE_TENTH_SEC (ONE_SEC/10)
 // movement status
 #define STATIC 0
 #define MOVING 1

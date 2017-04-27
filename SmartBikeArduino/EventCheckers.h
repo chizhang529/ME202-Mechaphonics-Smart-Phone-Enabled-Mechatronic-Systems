@@ -25,6 +25,6 @@
 // prototypes for the event checkers in EventCheckers.cpp
 
 bool Check4Keystroke(void);
-
+bool Check4BLEdata(void);
 
 #endif /* EventCheckers_H */

@@ -251,6 +251,11 @@ void setLightState(int newLightState) {
   isLightON = newLightState;
 }
 
+void resetSM(void) {
+  isLightON = OFF;
+  lightMode = SOLID;
+  currentStatus = Start;
+}
 /***************************************************************************
  private functions
  ***************************************************************************/

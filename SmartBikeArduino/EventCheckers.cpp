@@ -118,3 +118,8 @@ bool Check4Keystroke(void)
   }
   return false;
 }
+
+bool Check4BLEdata(void)
+{
+  return checkBLEdata();
+}

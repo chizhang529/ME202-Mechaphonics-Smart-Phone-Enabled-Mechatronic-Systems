@@ -272,7 +272,8 @@ typedef enum {  ES_NO_EVENT = 0,
                 ES_SHORT_TIMEOUT, /* signals that a short timer has expired */
                 /* User-defined events start here */
                 ES_NEW_KEY, /* signals a new key received from terminal */
-                ES_LOCK} ES_EventTyp_t ;
+                ES_LOCK,
+                ES_BLE_DATA} ES_EventTyp_t ;
 
 /****************************************************************************/
 // These are the definitions for the Distribution lists. Each definition
@@ -306,7 +307,7 @@ typedef enum {  ES_NO_EVENT = 0,
 
 /****************************************************************************/
 // This is the list of event checking functions
-#define EVENT_CHECK_LIST Check4Keystroke
+#define EVENT_CHECK_LIST Check4Keystroke, Check4BLEdata
 
 /****************************************************************************/
 // These are the definitions for the post functions to be executed when the
