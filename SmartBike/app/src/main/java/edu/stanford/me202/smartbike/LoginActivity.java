@@ -39,24 +39,32 @@ public class LoginActivity extends AppCompatActivity {
         // hardcode for quick login
         usernameText.setText("czhang94");
         passwordText.setText("smartbike");
+        SignUpActivity.userDB.put("czhang94", "smartbike");
     }
 
     public void login(View view) {
         String username = usernameText.getText().toString();
         String password = passwordText.getText().toString();
 
-        // hardcode valid username and password
-        if (username.equals("czhang94") && password.equals("smartbike")) {
-            Intent intent = new Intent(this, ControlActivity.class);
-            startActivity(intent);
-            // user will not return to login activity one they leave
-            finish();
+        if (SignUpActivity.userDB.containsKey(username)) {
+            if (SignUpActivity.userDB.get(username).equals(password)) {
+                Intent intent = new Intent(this, ControlActivity.class);
+                startActivity(intent);
+                // user will not return to login activity one they leave
+                finish();
+            } else {
+                Toast.makeText(this, "ERROR: wrong password, please try again!", Toast.LENGTH_SHORT).show();
+                // clear text
+                passwordText.setText("");
+            }
         } else {
-            Toast warningMessage = Toast.makeText(getApplicationContext(), "Error: incorrect username or password!", Toast.LENGTH_SHORT);
-            warningMessage.show();
+            Toast.makeText(this, "You are NOT a member yet! Please sign up.", Toast.LENGTH_SHORT).show();
             // clear text
             usernameText.setText("");
             passwordText.setText("");
+            Intent intent = new Intent(this, SignUpActivity.class);
+            startActivity(intent);
         }
+
     }
 }
