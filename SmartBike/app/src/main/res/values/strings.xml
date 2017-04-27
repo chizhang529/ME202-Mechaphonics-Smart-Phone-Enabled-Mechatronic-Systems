@@ -26,7 +26,7 @@
     <string name="connectionNo">Connection: Disconnected</string>
     <string name="bikeID">Bike Identifier:&#160;</string>
 
-    <string name="lockhint">Press to lock</string>
+    <string name="lockhint">Press to Lock</string>
     <string name="unlockhint">Press to Unlock</string>
 
     <string name="login_wrongPassword">ERROR: wrong password, please try again!</string>

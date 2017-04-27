@@ -197,7 +197,6 @@ public class ControlActivity extends AppCompatActivity {
     }
 
     public void unlock(View view) {
-        // TODO: handle disconnect action
         if (lock_unlock.getText().toString().equals(getString(R.string.unlockhint))) {
             // configure attributes of dialog
             AlertDialog.Builder unlockDialogBuilder = new AlertDialog.Builder(this);
