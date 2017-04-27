@@ -53,12 +53,12 @@ public class LoginActivity extends AppCompatActivity {
                 // user will not return to login activity one they leave
                 finish();
             } else {
-                Toast.makeText(this, "ERROR: wrong password, please try again!", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, R.string.login_wrongPassword, Toast.LENGTH_SHORT).show();
                 // clear text
                 passwordText.setText("");
             }
         } else {
-            Toast.makeText(this, "You are NOT a member yet! Please sign up.", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, R.string.login_notMember, Toast.LENGTH_SHORT).show();
             // clear text
             usernameText.setText("");
             passwordText.setText("");

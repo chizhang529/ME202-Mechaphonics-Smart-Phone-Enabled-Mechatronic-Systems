@@ -18,6 +18,7 @@ import butterknife.ButterKnife;
 public class SignUpActivity extends AppCompatActivity {
     // Pesudo UserDB
     static Map<String, String> userDB = new HashMap<>();
+
     private String username;
     private String password;
 
@@ -45,10 +46,10 @@ public class SignUpActivity extends AppCompatActivity {
         password_raw.setText("");
 
         if (userDB.containsKey(username)) {
-            Toast.makeText(SignUpActivity.this, "ERROR: usernmae already used!", Toast.LENGTH_SHORT).show();
+            Toast.makeText(SignUpActivity.this, R.string.signup_usernameExists, Toast.LENGTH_SHORT).show();
         } else {
             userDB.put(username, password);
-            Toast.makeText(SignUpActivity.this, "Welcome! You are now a member!", Toast.LENGTH_SHORT).show();
+            Toast.makeText(SignUpActivity.this, R.string.signup_success, Toast.LENGTH_SHORT).show();
             Intent intent = new Intent(this, LoginActivity.class);
             startActivity(intent);
             finish();

@@ -28,4 +28,9 @@
 
     <string name="lockhint">Press to lock</string>
     <string name="unlockhint">Press to Unlock</string>
+
+    <string name="login_wrongPassword">ERROR: wrong password, please try again!</string>
+    <string name="login_notMember">You are NOT a member yet! Please sign up.</string>
+    <string name="signup_usernameExists">ERROR: usernmae already used!</string>
+    <string name="signup_success">Welcome! You are now a member!</string>
 </resources>
