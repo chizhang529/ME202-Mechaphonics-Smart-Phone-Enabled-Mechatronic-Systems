@@ -1,6 +1,7 @@
 package edu.stanford.me202.smartbike;
 
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.media.Image;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
@@ -13,9 +14,13 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 import com.squareup.picasso.Picasso;
 
 import java.text.SimpleDateFormat;
@@ -37,8 +42,13 @@ public class RideHistoryActivity extends AppCompatActivity {
     @BindView(R.id.userAvatar)
     ImageView userAvatar;
     @BindView(R.id.addRide_btn)
-    Button addRideBtn;
+    ImageButton addRideBtn;
+    @BindView(R.id.exit_btn)
+    ImageButton exitBtn;
 
+    // Initialize FireBase database reference
+    private DatabaseReference fireDB;
+    private FirebaseAuth fireDBAuth;
     private Realm realm;
     private Calendar calendar;
     private SimpleDateFormat dateFormat = new SimpleDateFormat("MM/dd/yyyy h:mm:ss a", Locale.US);
@@ -52,6 +62,9 @@ public class RideHistoryActivity extends AppCompatActivity {
         ButterKnife.bind(this);
         // realm DB
         realm = Realm.getDefaultInstance();
+        // Firebase
+        fireDB = FirebaseDatabase.getInstance().getReference();
+        fireDBAuth = FirebaseAuth.getInstance();
 
         // default settings (hardcode for now), will be added to Realm and show up
         // when Realm initially has no objects
@@ -165,6 +178,18 @@ public class RideHistoryActivity extends AppCompatActivity {
 
                 // update Recycler view
                 adapter.notifyDataSetChanged();
+            }
+        });
+
+        exitBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                fireDBAuth.signOut();
+
+                // redirect to log in
+                Intent intent = new Intent(RideHistoryActivity.this, LoginActivity.class);
+                startActivity(intent);
+                finish();
             }
         });
     }

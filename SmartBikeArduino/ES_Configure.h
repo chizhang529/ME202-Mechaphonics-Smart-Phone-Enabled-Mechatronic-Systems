@@ -321,7 +321,7 @@ typedef enum {  ES_NO_EVENT = 0,
 #define TIMER2_RESP_FUNC PostAccelerometerService
 #define TIMER3_RESP_FUNC PostBluetoothService
 #define TIMER4_RESP_FUNC PostLogicFlow
-#define TIMER5_RESP_FUNC TIMER_UNUSED
+#define TIMER5_RESP_FUNC PostBluetoothService
 #define TIMER6_RESP_FUNC TIMER_UNUSED
 #define TIMER7_RESP_FUNC TIMER_UNUSED
 #define TIMER8_RESP_FUNC TIMER_UNUSED
@@ -345,5 +345,6 @@ typedef enum {  ES_NO_EVENT = 0,
 #define ACCELEROMETER_SENSOR_TIMER 2
 #define BLE_CHECK_TIMER 3
 #define LOGIC_TIMER 4
+#define ACCELEROMETER_REPORT_TIMER 5
 
 #endif /* CONFIGURE_H */

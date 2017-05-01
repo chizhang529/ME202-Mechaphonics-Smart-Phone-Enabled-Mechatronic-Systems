@@ -92,6 +92,7 @@ Adafruit_BluefruitLE_UART ble(bluefruitSS, BLUEFRUIT_UART_MODE_PIN,
 #include "ES_Configure.h"
 #include "./Framework/ES_Framework.h"
 #include "./Framework/ES_DeferRecall.h"
+#include "AccelerometerService.h"
 #include "BluetoothService.h"
 #include "LogicFlow.h"
 
@@ -179,6 +180,7 @@ bool InitBluetoothService ( uint8_t Priority )
 
   CurrentBLEState = Initializing;
   isConnected = DISCONNECTED;
+  // check BLE connection status every 0.1s
   ES_Timer_InitTimer(BLE_CHECK_TIMER, ONE_TENTH_SEC);
 
   // post the initial transition event
@@ -230,7 +232,7 @@ ES_Event RunBluetoothService( ES_Event ThisEvent )
   ES_Event ReturnEvent;
   BLEState_t LastBLEState;
   ReturnEvent.EventType = ES_NO_EVENT; // assume no errors
-  
+
   if (ThisEvent.EventType == ES_TIMEOUT && ThisEvent.EventParam == BLE_CHECK_TIMER) {
     if (ble.isConnected()) {
       LastBLEState = CurrentBLEState;
@@ -238,6 +240,8 @@ ES_Event RunBluetoothService( ES_Event ThisEvent )
       if (LastBLEState == Disconnected) {
         setLightMode(OFF);
         setLightMode(SOLID);
+        // report data to Android app via BLE at f = 1Hz
+        ES_Timer_InitTimer(ACCELEROMETER_REPORT_TIMER, TWO_SEC);
       }
     } else {
       LastBLEState = CurrentBLEState;
@@ -259,10 +263,10 @@ ES_Event RunBluetoothService( ES_Event ThisEvent )
 //      Serial.println(F("**********************************"));
       // set current connection status
       isConnected = CONNECTED;
-      
+
       if (ThisEvent.EventType == ES_BLE_DATA) {
         int cmdIndex = ThisEvent.EventParam;
-        
+
         if (cmdIndex == 0) {
           setLightState(ON);
         } else if (cmdIndex == 1) {
@@ -277,7 +281,24 @@ ES_Event RunBluetoothService( ES_Event ThisEvent )
           setLightMode(OFF);
           setLightMode(SOLID);
         }
-      }  
+      }
+
+      if (ThisEvent.EventType == ES_TIMEOUT && ThisEvent.EventParam == ACCELEROMETER_REPORT_TIMER) {
+        // get accel data, scale by 1000 and report it
+        float accel_x = getAccelXData();
+        float accel_y = getAccelYData();
+        float accel_z = getAccelZData();
+
+        String ax_str = String(accel_x, 2);
+        String ay_str = String(accel_y, 2);
+        String az_str = String(accel_z, 2);
+
+        String accel_str = ax_str + "!" + ay_str + "!" + az_str + "@";
+        char accel_char[BUFSIZE+1];
+        accel_str.toCharArray(accel_char, BUFSIZE+1);
+        ble.print(accel_char);
+        ES_Timer_InitTimer(ACCELEROMETER_REPORT_TIMER, TWO_SEC);
+      }
     break;
 
     case Disconnected:

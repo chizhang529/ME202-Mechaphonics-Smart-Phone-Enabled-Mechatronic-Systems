@@ -17,5 +17,8 @@ bool InitAccelerometerService( uint8_t Priority );
 bool PostAccelerometerService( ES_Event ThisEvent );
 ES_Event RunAccelerometerService( ES_Event ThisEvent );
 int getMovement(void);
+float getAccelXData(void);
+float getAccelYData(void);
+float getAccelZData(void);
 
 #endif /* AccelerometerService_H */

@@ -1,6 +1,7 @@
 <resources>
     <string name="app_name">SmartBike</string>
     <string name="welcometext">Welcome to Smart Bike!</string>
+    <string name="signuptext">Start Your Ride Today!</string>
     <string name="usernamehint">Username&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;</string>
     <string name="passwordhint">Password&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;</string>
     <string name="bikecodeNULL">Bike Identifier: Unknown</string>
@@ -29,8 +30,17 @@
     <string name="lockhint">Press to Lock</string>
     <string name="unlockhint">Press to Unlock</string>
 
-    <string name="login_wrongPassword">ERROR: wrong password, please try again!</string>
+    <string name="login_wrongPassword">Wrong password, please try again!</string>
     <string name="login_notMember">You are NOT a member yet! Please sign up.</string>
-    <string name="signup_usernameExists">ERROR: usernmae already used!</string>
     <string name="signup_success">Welcome! You are now a member!</string>
+
+    <string name="signin_redirect">Already a member? <b><u>Sign in</u></b> here!</string>
+    <string name="signup_redirect">No account? <b><u>Sign up</u></b> here!</string>
+    <string name="signup_emailhint">Email Address</string>
+    <string name="signup_passwordhint">Password (<b>> 5</b> characters)</string>
+    <string name="signup_fail">Error occurred: Signup failed!</string>
+    <string name="signup_emailcollision">User with this email already exists!</string>
+    <string name="signup_emailerror">Please enter a valid email address.</string>
+    <string name="signup_changeemail">Please use another email.</string>
+    <string name="signup_passworderror">Your password must contain at least 5 characters.</string>
 </resources>

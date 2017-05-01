@@ -22,7 +22,9 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
         <activity android:name=".ControlActivity" />
+
         <activity
             android:name=".RideHistoryActivity"
             android:windowSoftInputMode="adjustPan" />
@@ -32,7 +34,10 @@
             android:enabled="true"
             android:exported="true" />
 
-        <activity android:name=".SignUpActivity"></activity>
+        <activity
+            android:name=".SignUpActivity"
+            android:windowSoftInputMode="adjustPan"/>
+
     </application>
 
 </manifest>

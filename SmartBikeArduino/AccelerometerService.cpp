@@ -151,8 +151,8 @@ ES_Event RunAccelerometerService( ES_Event ThisEvent )
 
   switch (ThisEvent.EventType){
     case ES_INIT :
+      // The accelerometer data is updated every 10mS
       ES_Timer_InitTimer(ACCELEROMETER_SENSOR_TIMER, TEN_MILLI_SEC);
-      // In this service, the accelerometer data is updated every 10mS
       Serial.println(F("The accelerometer starts working..."));
     break;
 
@@ -172,8 +172,6 @@ ES_Event RunAccelerometerService( ES_Event ThisEvent )
           }
 
           if (readCount == 10){
-            // Serial.print(F("Raw data from accelerometer: accel.cx = "));
-            // Serial.println(accelDiffSum, 5);
 
             // set movement status
             if (accelDiffSum < 0.3) {
@@ -186,12 +184,6 @@ ES_Event RunAccelerometerService( ES_Event ThisEvent )
             if (accelDiffSum > 10.0){
               accelDiffSum = 10.0;
             }
-
-            // // post event to LEDService to change light intensity
-            // ES_Event Event2Post;
-            // Event2Post.EventType = ES_CHANGE_INTENSITY;
-            // Event2Post.EventParam = (int)(accelDiffSum * 10); // the intensity is mapped to 0-100 for PWM output
-            // PostLEDService(Event2Post);
 
             readCount = 0;
             accelDiffSum = 0.0;
@@ -211,6 +203,17 @@ int getMovement(void) {
   return movementStatus;
 }
 
+float getAccelXData(void) {
+  return accel.cx;
+}
+
+float getAccelYData(void) {
+  return accel.cy;
+}
+
+float getAccelZData(void) {
+  return accel.cz;
+}
 /***************************************************************************
  private functions
  ***************************************************************************/

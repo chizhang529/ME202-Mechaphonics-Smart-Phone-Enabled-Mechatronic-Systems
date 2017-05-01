@@ -25,6 +25,8 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 
 public class ControlActivity extends AppCompatActivity {
+    private final String BLETAG = "Bluetooth";
+    private final static String TAG = ControlActivity.class.getSimpleName();
 
     private BluetoothLEService bleService;
     private EditText bikeIdentifier;
@@ -57,13 +59,16 @@ public class ControlActivity extends AppCompatActivity {
         @Override
         public void onReceive(Context context, Intent intent) {
             if (intent.getAction().equals(bleService.ACTION_DATA_AVAILABLE)){
-                // do nothing
+                // TODO: Fix receiving data problem
+                String data = intent.getStringExtra(bleService.EXTRA_DATA);
+                Log.d(BLETAG, "Received data from Adafruit BLE module");
+                Log.d(BLETAG, data);
             }
 
             // Bluetooth Connected
             if (intent.getAction().equals(bleService.ACTION_GATT_CONNECTED)){
                 // tell Arduino that BLE is connected
-                Log.d("bluetooth", "CONNECTED");
+                Log.d(BLETAG, "CONNECTED");
                 String string = "c";
                 byte[] b = string.getBytes();
                 bleService.writeRXCharacteristic(b);
@@ -126,13 +131,13 @@ public class ControlActivity extends AppCompatActivity {
                     // update light state text
                     lightState_text.setText(R.string.lightstateON);
                     // send string to Adafruit bluetooth module
-                    Log.d("bluetooth", "ON");
+                    Log.d(BLETAG, "ON");
                     String string = "n";
                     byte[] b = string.getBytes();
                     bleService.writeRXCharacteristic(b);
                 } else { // light state: AUTO
                     lightState_text.setText(R.string.lightstateAUTO);
-                    Log.d("bluetooth", "AUTO");
+                    Log.d(BLETAG, "AUTO");
                     String string = "a";
                     byte[] b = string.getBytes();
                     bleService.writeRXCharacteristic(b);
@@ -146,13 +151,13 @@ public class ControlActivity extends AppCompatActivity {
 
                 if (isChecked){ // light mode: BLINK
                     lightMode_text.setText(R.string.lightmodeBLINK);
-                    Log.d("bluetooth", "BLINK");
+                    Log.d(BLETAG, "BLINK");
                     String string = "b";
                     byte[] b = string.getBytes();
                     bleService.writeRXCharacteristic(b);
                 } else { // light mode: SOLID
                     lightMode_text.setText(R.string.lightmodeSOLID);
-                    Log.d("bluetooth", "SOLID");
+                    Log.d(BLETAG, "SOLID");
                     String string = "s";
                     byte[] b = string.getBytes();
                     bleService.writeRXCharacteristic(b);
@@ -245,7 +250,7 @@ public class ControlActivity extends AppCompatActivity {
 
         if (lock_unlock.getText().toString().equals(getString(R.string.lockhint))) {
             // tell Arduino to reset
-            Log.d("bluetooth", "RESET");
+            Log.d(BLETAG, "RESET");
             String string = "r";
             byte[] b = string.getBytes();
             bleService.writeRXCharacteristic(b);

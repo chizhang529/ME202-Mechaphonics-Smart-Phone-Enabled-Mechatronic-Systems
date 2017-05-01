@@ -27,14 +27,53 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="0.6"
-        android:inputType="text"
+        android:inputType="textAutoCorrect"
         android:maxLines="1"
         android:hint="@string/enterYourLocation"/>
 
-    <Button
-        android:id="@+id/addRide_btn"
-        android:text="@string/addRide"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="0.5"/>
+        android:layout_weight="0.5"
+        android:orientation="horizontal">
+
+        <ImageButton
+            android:id="@+id/addRide_btn"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="@android:color/white"
+            android:src="@drawable/addride"
+            android:scaleType="fitCenter"/>
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="3"
+            android:text="Add your ride"
+            android:textColor="@android:color/black"
+            android:fontFamily="sans-serif"
+            android:textStyle="bold"
+            android:gravity="center_vertical"/>
+
+        <ImageButton
+            android:id="@+id/exit_btn"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="@android:color/white"
+            android:src="@drawable/exit"
+            android:scaleType="fitCenter"/>
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1.5"
+            android:text="Log out"
+            android:fontFamily="sans-serif"
+            android:textStyle="bold"
+            android:textColor="@android:color/black"
+            android:gravity="center_vertical"/>
+    </LinearLayout>
+
 </LinearLayout>

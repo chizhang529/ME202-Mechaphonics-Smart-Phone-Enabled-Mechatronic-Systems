@@ -105,7 +105,7 @@ public class BluetoothLEService extends Service {
                 mBluetoothGatt.setCharacteristicNotification(TxChar,true);
 
                 BluetoothGattDescriptor descriptor = TxChar.getDescriptor(CCCD);
-                descriptor.setValue(BluetoothGattDescriptor.DISABLE_NOTIFICATION_VALUE);
+                descriptor.setValue(BluetoothGattDescriptor.ENABLE_NOTIFICATION_VALUE);
                 mBluetoothGatt.writeDescriptor(descriptor);
 
             } else {
@@ -138,7 +138,8 @@ public class BluetoothLEService extends Service {
                                  final BluetoothGattCharacteristic characteristic) {
         final Intent intent = new Intent(action);
         if (TX_CHAR_UUID.equals(characteristic.getUuid())){
-            intent.putExtra(EXTRA_DATA,characteristic.getValue());
+            // broadcast string without offset, which means broadcasting the complete string sent by Arduino
+            intent.putExtra(EXTRA_DATA, characteristic.getStringValue(0));
         }
         LocalBroadcastManager.getInstance(this).sendBroadcast(intent);
     }

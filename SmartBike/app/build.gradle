@@ -5,7 +5,7 @@ android {
     compileSdkVersion 25
     buildToolsVersion "25.0.2"
     defaultConfig {
-        applicationId "edu.stanford.me202.lab1_smartbike"
+        applicationId "edu.stanford.me202.smartbike"
         minSdkVersion 21
         targetSdkVersion 25
         versionCode 1
@@ -41,6 +41,15 @@ dependencies {
     compile 'com.jakewharton:butterknife:8.5.1'
     compile 'pl.droidsonroids.gif:android-gif-drawable:1.2.+'
     compile 'com.github.glomadrian:MaterialAnimatedSwitch:1.1@aar'
+    compile 'com.google.firebase:firebase-core:10.2.1'
+    // FireBase Google Services (last line: for compatibility of FireBase and Realm)
+    compile 'com.google.firebase:firebase-database:10.2.1'
+    compile 'com.google.firebase:firebase-auth:10.2.1'
+    compile 'io.reactivex:rxjava:1.1.0'
+    // Access to Android Design library
+    compile 'com.android.support:design:25.3.1'
     testCompile 'junit:junit:4.12'
     annotationProcessor 'com.jakewharton:butterknife-compiler:8.5.1'
 }
+
+apply plugin: 'com.google.gms.google-services' // FireBase
