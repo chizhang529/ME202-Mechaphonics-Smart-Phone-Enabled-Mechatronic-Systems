@@ -58,7 +58,6 @@ public class LoginActivity extends AppCompatActivity {
 
         if (fireDBAuth.getCurrentUser() != null) {
             Log.d(TAG, fireDBAuth.getCurrentUser().getUid());
-
             // redirect to control activity
             Intent intent = new Intent(LoginActivity.this, ControlActivity.class);
             startActivity(intent);

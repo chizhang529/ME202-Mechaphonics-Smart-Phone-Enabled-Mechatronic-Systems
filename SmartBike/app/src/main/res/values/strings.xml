@@ -21,6 +21,7 @@
 
     <string name="enterYourLocation">New ride? Enter your location here</string>
     <string name="addRide">Add Your Ride</string>
+    <string name="logout">Log Out</string>
     <string name="deleteRide">Are you sure to delete this ride?</string>
 
     <string name="connectionYes">Connection: Connected</string>
@@ -30,7 +31,7 @@
     <string name="lockhint">Press to Lock</string>
     <string name="unlockhint">Press to Unlock</string>
 
-    <string name="login_wrongPassword">Wrong password, please try again!</string>
+    <string name="login_wrongPassword">Wrong email or password, please try again!</string>
     <string name="login_notMember">You are NOT a member yet! Please sign up.</string>
     <string name="signup_success">Welcome! You are now a member!</string>
 

@@ -31,6 +31,8 @@ public class ControlActivity extends AppCompatActivity {
     private BluetoothLEService bleService;
     private EditText bikeIdentifier;
 
+    private String data;
+
     // light settings
     @BindView(R.id.lightmode_switch) MaterialAnimatedSwitch lightMode_switch;
     @BindView(R.id.lightstate_switch) MaterialAnimatedSwitch lightState_switch;
@@ -60,9 +62,12 @@ public class ControlActivity extends AppCompatActivity {
         public void onReceive(Context context, Intent intent) {
             if (intent.getAction().equals(bleService.ACTION_DATA_AVAILABLE)){
                 // TODO: Fix receiving data problem
-                String data = intent.getStringExtra(bleService.EXTRA_DATA);
-                Log.d(BLETAG, "Received data from Adafruit BLE module");
-                Log.d(BLETAG, data);
+                data = data + intent.getStringExtra(bleService.EXTRA_DATA);
+
+                if (data.endsWith("@")) {
+                    Log.d(BLETAG, "Received data from Adafruit BLE module");
+                    Log.d(BLETAG, data);
+                }
             }
 
             // Bluetooth Connected

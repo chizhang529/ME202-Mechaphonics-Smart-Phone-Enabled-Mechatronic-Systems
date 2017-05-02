@@ -1,8 +1,10 @@
 package edu.stanford.me202.smartbike;
 
+import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.media.Image;
+import android.support.annotation.NonNull;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -19,8 +21,12 @@ import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.ChildEventListener;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.squareup.picasso.Picasso;
 
 import java.text.SimpleDateFormat;
@@ -32,8 +38,15 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import io.realm.Realm;
 import io.realm.RealmObject;
+import io.realm.RealmResults;
 
 public class RideHistoryActivity extends AppCompatActivity {
+    private final static String TAG = RideHistoryActivity.class.getSimpleName();
+
+    private String currentUid;
+
+    // get recycler view adapter
+    private final RideHistoryListAdapter adapter = new RideHistoryListAdapter(this);
 
     @BindView(R.id.rideHistory)
     RecyclerView rideHistoryList;
@@ -53,6 +66,7 @@ public class RideHistoryActivity extends AppCompatActivity {
     private Calendar calendar;
     private SimpleDateFormat dateFormat = new SimpleDateFormat("MM/dd/yyyy h:mm:ss a", Locale.US);
     private String dateToday;
+    private String timeStamp;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -66,22 +80,45 @@ public class RideHistoryActivity extends AppCompatActivity {
         fireDB = FirebaseDatabase.getInstance().getReference();
         fireDBAuth = FirebaseAuth.getInstance();
 
-        // default settings (hardcode for now), will be added to Realm and show up
-        // when Realm initially has no objects
-        Ride r1 = new Ride(R.drawable.bluetooth, "Los Angeles", "07/01/2017 09:07:21 AM");
-        Ride r2 = new Ride(R.drawable.bluetooth, "San Francisco", "02/04/2016 10:20:30 PM");
-        // modification of realm must happen in transaction but read-only does not require transaction
-        realm.beginTransaction();
-        if (realm.isEmpty()) {
-            realm.copyToRealm(r1);
-            realm.copyToRealm(r2);
-        }
-        realm.commitTransaction();
+        // get current user leaf: all rides will be added under this leaf
+        currentUid = fireDBAuth.getCurrentUser().getUid();
+        Log.d(TAG, currentUid);
 
-        Picasso.with(this)
-                .load(R.drawable.auto)
-                .transform(new CircleTransform())
-                .into(userAvatar);
+        // configure Firebase here
+        // pull down all data related to this user from Firebase
+        fireDB.child(currentUid).addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                realm.beginTransaction();
+                realm.deleteAll();
+
+                for (DataSnapshot postSnapshot : dataSnapshot.getChildren()) {
+                    Ride r = postSnapshot.getValue(Ride.class);
+                    realm.copyToRealmOrUpdate(r);
+                }
+
+                realm.commitTransaction();
+                // update recycler view
+                adapter.notifyDataSetChanged();
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+
+        if (fireDBAuth.getCurrentUser().getEmail().contentEquals("czhang94@stanford.edu")) {
+            Picasso.with(this)
+                    .load(R.drawable.czhang)
+                    .transform(new CircleTransform())
+                    .into(userAvatar);
+        } else {
+            Picasso.with(this)
+                    .load(R.drawable.man)
+                    .transform(new CircleTransform())
+                    .into(userAvatar);
+        }
     }
 
     @Override
@@ -99,8 +136,6 @@ public class RideHistoryActivity extends AppCompatActivity {
         DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(rideHistoryList.getContext(),
                 manager.getOrientation());
         rideHistoryList.addItemDecoration(dividerItemDecoration);
-
-        final RideHistoryListAdapter adapter = new RideHistoryListAdapter(this);
         rideHistoryList.setAdapter(adapter);
 
         // handles user swipes, here only configure it to handle swipe to left motion
@@ -123,24 +158,24 @@ public class RideHistoryActivity extends AppCompatActivity {
                         public void onClick(DialogInterface dialog, int which) {
                             int position = viewHolder.getAdapterPosition(); //get position which is swipe
 
+                            Ride ride2delete = realm.where(Ride.class)
+                                    .equalTo("timeStamp", adapter.getResults().get(position).getTimeStamp())
+                                    .findFirst();
+                            // delete data from Firebase
+                            fireDB.child(currentUid).child(ride2delete.getTimeStamp()).removeValue();
                             // delete data from Realm
                             realm.beginTransaction();
-                            Ride ride2delete = realm.where(Ride.class)
-                                    .equalTo("date", adapter.getResults().get(position).getDate())
-                                    .findFirst();
-                            ride2delete.deleteFromRealm(ride2delete);
+                            ride2delete.deleteFromRealm();
                             realm.commitTransaction();
 
                             // update recycler view
                             adapter.notifyDataSetChanged();
-                            return;
                         }
                     }).setNegativeButton("CANCEL", new DialogInterface.OnClickListener() {  //not removing items if cancel is done
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
                             // do nothing, just update recycler view
                             adapter.notifyDataSetChanged();
-                            return;
                         }
                     }).show();
                 }
@@ -153,22 +188,27 @@ public class RideHistoryActivity extends AppCompatActivity {
         addRideBtn.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v) {
-                String locationStr = rideLocation.getText().toString();
+                String locationStr = rideLocation.getText().toString().trim();
                 // update time
                 calendar = Calendar.getInstance();
                 dateToday = dateFormat.format(calendar.getTime());
+                timeStamp = Long.toString(calendar.getTimeInMillis());
 
                 if (locationStr.isEmpty()) {
+                    // show error message
                     Toast toast1 = Toast.makeText(RideHistoryActivity.this, "Error: location CANNOT be empty!", Toast.LENGTH_SHORT);
                     toast1.show();
                 } else {
+                    int cityIndex = getCityIndex(locationStr);
+                    Ride newRide = new Ride(cityIndex, locationStr, dateToday, timeStamp);
+                    // add new ride to FireDB
+                    fireDB.child(currentUid).child(newRide.getTimeStamp()).setValue(newRide);
                     // add new ride to realm
-                    Ride newRide = new Ride(R.drawable.unknownlocation, locationStr, dateToday);
                     realm.beginTransaction();
                     realm.copyToRealm(newRide);
                     realm.commitTransaction();
 
-                    // show error message
+                    // show message
                     Toast toast2 = Toast.makeText(RideHistoryActivity.this, "Hooray! Added a new ride!", Toast.LENGTH_SHORT);
                     toast2.show();
 
@@ -184,12 +224,20 @@ public class RideHistoryActivity extends AppCompatActivity {
         exitBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                fireDBAuth.addAuthStateListener(new FirebaseAuth.AuthStateListener() {
+                    @Override
+                    public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
+                        if (firebaseAuth.getCurrentUser() == null) {
+                            // redirect to log in
+                            Intent intent = new Intent(RideHistoryActivity.this, LoginActivity.class);
+                            startActivity(intent);
+                            finish();
+                        }
+                    }
+                });
+
                 fireDBAuth.signOut();
 
-                // redirect to log in
-                Intent intent = new Intent(RideHistoryActivity.this, LoginActivity.class);
-                startActivity(intent);
-                finish();
             }
         });
     }
@@ -199,6 +247,49 @@ public class RideHistoryActivity extends AppCompatActivity {
         super.onDestroy();
         // close realm instance
         realm.close();
+    }
+
+    // a helper funtion for indexing some big cities in the world
+    private int getCityIndex(String locationStr) {
+        int cityIndex = R.drawable.unknownlocation;
+
+        switch (locationStr) {
+            case "New York":
+                cityIndex = R.drawable.newyork;
+            break;
+
+            case "Barcelona":
+                cityIndex = R.drawable.barcelona;
+            break;
+
+            case "Beijing":
+                cityIndex = R.drawable.beijing;
+            break;
+
+            case "London":
+                cityIndex = R.drawable.london;
+            break;
+
+            case "Moscow":
+                cityIndex = R.drawable.moscow;
+            break;
+
+            case "Shanghai":
+                cityIndex = R.drawable.shanghai;
+            break;
+
+            case "Washington":
+                cityIndex = R.drawable.washington;
+            break;
+
+            case "Tokyo":
+                cityIndex = R.drawable.tokyo;
+            break;
+
+            default: break;
+        }
+
+        return cityIndex;
     }
 
 }
