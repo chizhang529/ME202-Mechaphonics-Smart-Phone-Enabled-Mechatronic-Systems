@@ -23,6 +23,8 @@
     <string name="addRide">Add Your Ride</string>
     <string name="logout">Log Out</string>
     <string name="deleteRide">Are you sure to delete this ride?</string>
+    <string name="emptylocationerror">Error: location CANNOT be empty!</string>
+    <string name="addNewRide">Hooray! Added a new ride!</string>
 
     <string name="connectionYes">Connection: Connected</string>
     <string name="connectionNo">Connection: Disconnected</string>
@@ -44,4 +46,6 @@
     <string name="signup_emailerror">Please enter a valid email address.</string>
     <string name="signup_changeemail">Please use another email.</string>
     <string name="signup_passworderror">Your password must contain at least 5 characters.</string>
+
+    <string name="stealalert">Your bike may be stolen!</string>
 </resources>

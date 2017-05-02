@@ -8,6 +8,7 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.ServiceConnection;
 import android.os.IBinder;
+import android.os.Vibrator;
 import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
@@ -31,7 +32,8 @@ public class ControlActivity extends AppCompatActivity {
     private BluetoothLEService bleService;
     private EditText bikeIdentifier;
 
-    private String data;
+    private String data = "";
+    private boolean response2theft = false;
 
     // light settings
     @BindView(R.id.lightmode_switch) MaterialAnimatedSwitch lightMode_switch;
@@ -62,11 +64,43 @@ public class ControlActivity extends AppCompatActivity {
         public void onReceive(Context context, Intent intent) {
             if (intent.getAction().equals(bleService.ACTION_DATA_AVAILABLE)){
                 // TODO: Fix receiving data problem
-                data = data + intent.getStringExtra(bleService.EXTRA_DATA);
+                data += intent.getStringExtra(bleService.EXTRA_DATA);
 
                 if (data.endsWith("@")) {
-                    Log.d(BLETAG, "Received data from Adafruit BLE module");
-                    Log.d(BLETAG, data);
+                    Log.d(BLETAG, "Accelerometer raw data: " + data);
+                    String delim = "@";
+                    String accelInfo = data.split(delim)[0];
+
+                    if (accelInfo.endsWith("1")) {
+                        // vibration for 800ms as reminder
+                        ((Vibrator)getSystemService(VIBRATOR_SERVICE)).vibrate(800);
+
+                        if (!response2theft) {
+                            // show alert
+                            AlertDialog.Builder theftAlertBuilder = new AlertDialog.Builder(ControlActivity.this);
+                            theftAlertBuilder.setTitle(R.string.stealalert);
+                            theftAlertBuilder.setIcon(R.drawable.warning);
+                            theftAlertBuilder.setCancelable(true);
+                            theftAlertBuilder.setPositiveButton("GOT IT!", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    // for further map or GPS function
+                                    response2theft = false;
+                                }
+                            }).setNegativeButton("DISMISS", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    // do nothing
+                                    response2theft = false;
+                                }
+                            }).show();
+
+                            response2theft = true;
+                        }
+                    }
+
+                    // reset data string
+                    data = "";
                 }
             }
 

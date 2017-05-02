@@ -196,7 +196,7 @@ public class RideHistoryActivity extends AppCompatActivity {
 
                 if (locationStr.isEmpty()) {
                     // show error message
-                    Toast toast1 = Toast.makeText(RideHistoryActivity.this, "Error: location CANNOT be empty!", Toast.LENGTH_SHORT);
+                    Toast toast1 = Toast.makeText(RideHistoryActivity.this, R.string.emptylocationerror, Toast.LENGTH_SHORT);
                     toast1.show();
                 } else {
                     int cityIndex = getCityIndex(locationStr);
@@ -209,7 +209,7 @@ public class RideHistoryActivity extends AppCompatActivity {
                     realm.commitTransaction();
 
                     // show message
-                    Toast toast2 = Toast.makeText(RideHistoryActivity.this, "Hooray! Added a new ride!", Toast.LENGTH_SHORT);
+                    Toast toast2 = Toast.makeText(RideHistoryActivity.this, R.string.addNewRide, Toast.LENGTH_SHORT);
                     toast2.show();
 
                     // clear user input

@@ -165,7 +165,7 @@ ES_Event RunLogicFlow( ES_Event ThisEvent )
     isBLEConnected = getConnectionStatus(); //BluetoothService
     isLightON = getLightState();
     isMoving = getMovement(); //AccelerometerService
-    // statusPrint();
+    statusPrint();
     // restart timer
     ES_Timer_InitTimer(LOGIC_TIMER, HALF_SEC);
   }

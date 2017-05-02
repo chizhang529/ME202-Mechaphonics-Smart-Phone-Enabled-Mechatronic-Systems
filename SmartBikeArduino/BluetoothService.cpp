@@ -115,6 +115,9 @@ Adafruit_BluefruitLE_UART ble(bluefruitSS, BLUEFRUIT_UART_MODE_PIN,
 // light state
 #define OFF 0 // which means AUTO mode
 #define ON 1
+// movement status
+#define STATIC 0
+#define MOVING 1
 
 /*---------------------------- Module Functions ---------------------------*/
 /* prototypes for private functions for this service.They should be functions
@@ -241,7 +244,7 @@ ES_Event RunBluetoothService( ES_Event ThisEvent )
         setLightMode(OFF);
         setLightMode(SOLID);
         // report data to Android app via BLE at f = 1Hz
-        ES_Timer_InitTimer(ACCELEROMETER_REPORT_TIMER, TWO_SEC);
+        ES_Timer_InitTimer(ACCELEROMETER_REPORT_TIMER, ONE_SEC);
       }
     } else {
       LastBLEState = CurrentBLEState;
@@ -284,7 +287,7 @@ ES_Event RunBluetoothService( ES_Event ThisEvent )
       }
 
       if (ThisEvent.EventType == ES_TIMEOUT && ThisEvent.EventParam == ACCELEROMETER_REPORT_TIMER) {
-        // get accel data, scale by 1000 and report it
+        // get accel data
         float accel_x = getAccelXData();
         float accel_y = getAccelYData();
         float accel_z = getAccelZData();
@@ -293,11 +296,16 @@ ES_Event RunBluetoothService( ES_Event ThisEvent )
         String ay_str = String(accel_y, 2);
         String az_str = String(accel_z, 2);
 
-        String accel_str = ax_str + "!" + ay_str + "!" + az_str + "@";
-        char accel_char[BUFSIZE+1];
-        accel_str.toCharArray(accel_char, BUFSIZE+1);
-        ble.print(accel_char);
-        ES_Timer_InitTimer(ACCELEROMETER_REPORT_TIMER, TWO_SEC);
+        String movement = "";
+        if (getMovement() == MOVING) {
+          movement = "1";
+        } else {
+          movement = "0";
+        }
+        
+        String accel_str = ax_str + "|" + ay_str + "|" + az_str + "|" + movement + "@";
+        ble.print(accel_str);
+        ES_Timer_InitTimer(ACCELEROMETER_REPORT_TIMER, ONE_SEC);
       }
     break;
 
