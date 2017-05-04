@@ -91,7 +91,7 @@ public class RideHistoryActivity extends AppCompatActivity {
             public void onDataChange(DataSnapshot dataSnapshot) {
                 realm.beginTransaction();
                 realm.deleteAll();
-
+                // TODO: How to hide some Realm components
                 for (DataSnapshot postSnapshot : dataSnapshot.getChildren()) {
                     Ride r = postSnapshot.getValue(Ride.class);
                     realm.copyToRealmOrUpdate(r);

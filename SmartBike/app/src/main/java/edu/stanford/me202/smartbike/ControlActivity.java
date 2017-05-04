@@ -63,7 +63,6 @@ public class ControlActivity extends AppCompatActivity {
         @Override
         public void onReceive(Context context, Intent intent) {
             if (intent.getAction().equals(bleService.ACTION_DATA_AVAILABLE)){
-                // TODO: Fix receiving data problem
                 data += intent.getStringExtra(bleService.EXTRA_DATA);
 
                 if (data.endsWith("@")) {
